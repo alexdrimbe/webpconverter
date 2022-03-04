@@ -21,7 +21,7 @@ const convertFile = (inputFile) => {
 	const outputFile = path.join(fileDir, fileName)
 
 	if (!fs.existsSync(fileDir)) {
-		fs.mkdirSync(fileDir)
+		fs.mkdirSync(fileDir, { recursive: true })
 	}
 
 	sharp(inputFile)
