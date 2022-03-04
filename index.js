@@ -1,21 +1,28 @@
 const sharp = require('sharp')
+const fs = require('fs')
 const path = require('path')
 const glob = require('glob')
 const colors = require('colors')
 
-const inputDir = './input'
-const outputDir = './output'
+const inputDir = `${__dirname}/input`
+const outputDir = `${__dirname}/output`
 
 colors.setTheme({
 	info: 'green',
 	error: 'red',
 })
 
-const files = path.join(__dirname, inputDir, '/**/*.+(png|jpg|jpeg)')
+const files = path.join(inputDir, '/**/*.+(png|jpg|jpeg)')
 
 const convertFile = (inputFile) => {
-	const fileName = `${path.parse(inputFile)?.name}.webp`
-	const outputFile = path.join(__dirname, outputDir, fileName)
+	const fileParse = path.parse(inputFile)
+	const fileDir = fileParse?.dir?.replace(inputDir, outputDir)
+	const fileName = `${fileParse?.name}.webp`
+	const outputFile = path.join(fileDir, fileName)
+
+	if (!fs.existsSync(fileDir)) {
+		fs.mkdirSync(fileDir)
+	}
 
 	sharp(inputFile)
 		.webp({ quality: 85 })
