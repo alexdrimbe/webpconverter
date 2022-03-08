@@ -4,8 +4,8 @@ const path = require('path')
 const glob = require('glob')
 const colors = require('colors')
 
-const inputDir = `${__dirname}/input`
-const outputDir = `${__dirname}/output`
+const inputDir = path.normalize(`${__dirname}/input`)
+const outputDir = path.normalize(`${__dirname}/output`)
 
 colors.setTheme({
 	info: 'green',
@@ -16,12 +16,13 @@ const files = path.join(inputDir, '/**/*.+(png|jpg|jpeg)')
 
 const convertFile = (inputFile) => {
 	const fileParse = path.parse(inputFile)
-	const fileDir = fileParse?.dir?.replace(inputDir, outputDir)
+	const inputFileDir = path.normalize(fileParse?.dir)
+	const outputFileDir = inputFileDir?.replace(inputDir, outputDir)
 	const fileName = `${fileParse?.name}.webp`
-	const outputFile = path.join(fileDir, fileName)
+	const outputFile = path.join(outputFileDir, fileName)
 
-	if (!fs.existsSync(fileDir)) {
-		fs.mkdirSync(fileDir, { recursive: true })
+	if (!fs.existsSync(outputFileDir)) {
+		fs.mkdirSync(outputFileDir, { recursive: true })
 	}
 
 	sharp(inputFile)
