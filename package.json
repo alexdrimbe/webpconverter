@@ -4,7 +4,8 @@
   "description": "WebP Converter",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "resize": "node resize.js"
   },
   "repository": {
     "type": "git",
