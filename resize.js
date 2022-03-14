@@ -29,8 +29,8 @@ const resizeFile = (inputFile) => {
 		.metadata()
 		.then(({ width }) =>
 			sharp(inputFile)
+				.webp({ quality: 75 })
 				.resize(Math.round(width * 0.6))
-				.webp({ quality: 85 })
 				.toFile(outputFile)
 				.then((info) => {
 					console.log(colors.info(outputFile, info?.size))
